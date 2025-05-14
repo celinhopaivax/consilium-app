@@ -1,0 +1,13 @@
+# fly.toml (exemplo parcial)
+app = "seu-app-consilium"
+primary_region = "gru" # Exemplo de região
+
+[build]
+  # Dockerfile é usado por padrão se existir
+
+[http_service]
+  internal_port = 5000 # Porta que o Gunicorn está escutando dentro do container
+  force_https = true
+  auto_stop_machines = true # Pode ser true ou false dependendo da sua necessidade
+  auto_start_machines = true # Pode ser true ou false
+  min_machines_running = 0 # Pode ser 0 para scale-to-zero ou 1 para sempre ligado

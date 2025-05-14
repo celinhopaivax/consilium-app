@@ -1,0 +1,49 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}{{ title }} - Consilium{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header"><h2>{{ title }} (Projeto: {{ project.name }})</h2></div>
+            <div class="card-body">
+                <form method="POST" action="">
+                    <div class="form-group">
+                        <label for="title">Título da Tarefa</label>
+                        <input type="text" class="form-control" id="title" name="title" value="{{ task.title if task else '' }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Descrição (Opcional)</label>
+                        <textarea class="form-control" id="description" name="description" rows="3">{{ task.description if task and task.description else '' }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status</label>
+                        <select class="form-control" id="status" name="status">
+                            <option value="A Fazer" {% if task and task.status == "A Fazer" %}selected{% endif %}>A Fazer</option>
+                            <option value="Em Andamento" {% if task and task.status == "Em Andamento" %}selected{% endif %}>Em Andamento</option>
+                            <option value="Concluído" {% if task and task.status == "Concluído" %}selected{% endif %}>Concluído</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="due_date">Data de Vencimento (Opcional)</label>
+                        <input type="date" class="form-control" id="due_date" name="due_date" value="{{ task.due_date.strftime("%Y-%m-%d") if task and task.due_date else '' }}">
+                    </div>
+                    <div class="form-group">
+                        <label for="assignee_id">Atribuir a (Opcional)</label>
+                        <select class="form-control" id="assignee_id" name="assignee_id">
+                            <option value="">Ninguém</option>
+                            {% for user in users %}
+                                <option value="{{ user.id }}" {% if task and task.assignee_id == user.id %}selected{% endif %}>{{ user.username }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Salvar Tarefa</button>
+                    <a href="{{ url_for("projects_bp.view_project", project_id=project.id) }}" class="btn btn-secondary">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

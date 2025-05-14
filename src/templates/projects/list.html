@@ -1,0 +1,30 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Meus Projetos - Consilium{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h1>Meus Projetos</h1>
+    <a href="{{ url_for("projects_bp.create_project") }}" class="btn btn-success">Criar Novo Projeto</a>
+</div>
+
+{% if projects %}
+    <div class="list-group">
+        {% for project in projects %}
+            <a href="{{ url_for("projects_bp.view_project", project_id=project.id) }}" class="list-group-item list-group-item-action flex-column align-items-start">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">{{ project.name }}</h5>
+                    <small>Criado em: {{ project.created_at.strftime("%d/%m/%Y") }}</small>
+                </div>
+                <p class="mb-1">{{ project.description if project.description else "Sem descrição." }}</p>
+                {# <small>Owner: {{ project.owner.username }}</small> #}
+            </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="alert alert-info" role="alert">
+        Você ainda não tem nenhum projeto. <a href="{{ url_for("projects_bp.create_project") }}">Crie um agora!</a>
+    </div>
+{% endif %}
+{% endblock %}
+

@@ -1,0 +1,28 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}{{ title }} - Consilium{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card">
+            <div class="card-header"><h2>{{ title }}</h2></div>
+            <div class="card-body">
+                <form method="POST" action="">
+                    <div class="form-group">
+                        <label for="name">Nome do Projeto</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ project.name if project else '' }}" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Descrição (Opcional)</label>
+                        <textarea class="form-control" id="description" name="description" rows="3">{{ project.description if project and project.description else '' }}</textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Salvar Projeto</button>
+                    <a href="{{ url_for('projects_bp.list_projects') }}" class="btn btn-secondary">Cancelar</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+

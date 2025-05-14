@@ -1,0 +1,111 @@
+/* Estilos Globais */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #212529;
+    line-height: 1.6;
+}
+
+.footer {
+    background-color: #e9ecef;
+    padding: 1rem 0;
+    font-size: 0.9em;
+    color: #6c757d;
+}
+
+.navbar {
+    box-shadow: 0 2px 4px rgba(0,0,0,.04);
+}
+
+.card {
+    border: 1px solid rgba(0,0,0,.125);
+    border-radius: .25rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 1px 3px rgba(0,0,0,.05);
+}
+
+.card-header {
+    background-color: #f1f3f5;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    font-weight: 500;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-outline-primary {
+    color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-outline-primary:hover {
+    color: #fff;
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.alert {
+    border-radius: .25rem;
+}
+
+/* Melhorias para responsividade */
+@media (max-width: 768px) {
+    .display-4 {
+        font-size: 2.5rem;
+    }
+    .lead {
+        font-size: 1.1rem;
+    }
+    .navbar-nav .nav-link {
+        padding-right: .5rem;
+        padding-left: .5rem;
+    }
+    .container {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+}
+
+/* Estilos específicos para a visualização de projeto e tarefas */
+#tasksAccordion .card-header .btn-link {
+    text-decoration: none;
+    color: #212529;
+    width: 100%;
+    text-align: left;
+    padding: .75rem 1.25rem;
+}
+
+#tasksAccordion .card-header .btn-link:hover {
+    color: #0056b3;
+}
+
+#tasksAccordion .badge {
+    font-size: 0.8em;
+}
+
+.media-body h6 small {
+    font-size: 0.85em;
+}
+
+/* Ajustes para formulários inline */
+.form-inline .form-control-sm {
+    max-width: 150px; /* Limita a largura do select de status */
+}
+
+.list-group-item-action:hover, .list-group-item-action:focus {
+    background-color: #f8f9fa;
+}
+
+

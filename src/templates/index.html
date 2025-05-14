@@ -1,0 +1,22 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Painel Principal - Consilium{% endblock %}
+
+{% block content %}
+<div class="jumbotron">
+    <h1 class="display-4">Bem-vindo ao Consilium, {{ username }}!</h1>
+    <p class="lead">Este é o seu painel principal. A partir daqui, você poderá gerenciar seus projetos e tarefas.</p>
+    <hr class="my-4">
+    <p>Funcionalidades de gerenciamento de projetos e tarefas serão adicionadas aqui em breve.</p>
+    {# <a class="btn btn-primary btn-lg" href="{{ url_for("projects_bp.list_projects") }}" role="button">Ver Meus Projetos</a> #}
+    <a class="btn btn-primary btn-lg" href="#" role="button">Ver Meus Projetos (Em Breve)</a>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <h2>Atividades Recentes (Placeholder)</h2>
+        <p>Nenhuma atividade recente para mostrar ainda.</p>
+    </div>
+</div>
+{% endblock %}
+

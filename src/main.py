@@ -20,8 +20,27 @@ app = Flask(__name__,
             template_folder=os.path.join(os.path.dirname(__file__), 'templates'))
 app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'dev_secret_key_CHANGE_ME_IN_PRODUCTION')
 
-# Database Configuration
-app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql+pymysql://{os.getenv('DB_USERNAME', 'root')}:{os.getenv('DB_PASSWORD', 'password')}@{os.getenv('DB_HOST', 'localhost')}:{os.getenv('DB_PORT', '3306')}/{os.getenv('DB_NAME', 'consilium_db')}"
+# Database Configuration - PostgreSQL
+# Prioriza a variável DATABASE_URL, que o Fly.io pode fornecer automaticamente
+database_url = os.getenv('DATABASE_URL')
+
+if database_url:
+    # O Fly.io e outros provedores geralmente fornecem a string no formato postgres://
+    # SQLAlchemy espera postgresql+psycopg2:// ou apenas postgresql://
+    if database_url.startswith("postgres://"):
+        database_url = database_url.replace("postgres://", "postgresql://", 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+else:
+    # Fallback para configuração manual (útil para desenvolvimento local)
+    # Primeiro tenta variáveis específicas para PostgreSQL
+    db_user_pg = os.getenv('DB_USERNAME_PG', os.getenv('DB_USERNAME', 'postgres'))
+    db_pass_pg = os.getenv('DB_PASSWORD_PG', os.getenv('DB_PASSWORD', 'password'))
+    db_host_pg = os.getenv('DB_HOST_PG', os.getenv('DB_HOST', 'localhost'))
+    db_port_pg = os.getenv('DB_PORT_PG', os.getenv('DB_PORT', '5432'))
+    db_name_pg = os.getenv('DB_NAME_PG', os.getenv('DB_NAME', 'consilium_db'))
+    app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{db_user_pg}:{db_pass_pg}@{db_host_pg}:{db_port_pg}/{db_name_pg}"
+
+# Desativa o rastreamento de modificações para melhor desempenho
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Initialize Flask extensions
@@ -79,5 +98,4 @@ def serve_static_path(path):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all() # Creates database tables based on models
-    app.run(host='0.0.0.0', port=5000, debug=True)
-
+    app.run(host='0.0.0.0', port=int(os.getenv('PORT', 5000)), debug=True)

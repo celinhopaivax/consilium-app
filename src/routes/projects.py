@@ -29,7 +29,8 @@ def create_project():
         db.session.add(new_project)
         db.session.commit()
 
-        flash(f"Projeto ások{"{name}"} criado com sucesso!", "success")
+        # CORRIGIDO: Removido caracteres inválidos e quebra de linha
+        flash(f'Projeto "{name}" criado com sucesso!', "success") 
         return redirect(url_for("projects_bp.list_projects"))
     
     return render_template("projects/create_edit.html", title="Criar Novo Projeto", project=None)
@@ -64,7 +65,8 @@ def edit_project(project_id):
         project.name = name
         project.description = description
         db.session.commit()
-        flash(f"Projeto ások{"{project.name}"} atualizado com sucesso!", "success")
+        # CORRIGIDO: Removido caracteres inválidos e quebra de linha
+        flash(f'Projeto "{project.name}" atualizado com sucesso!', "success") 
         return redirect(url_for("projects_bp.view_project", project_id=project.id))
 
     return render_template("projects/create_edit.html", title=f"Editar Projeto: {project.name}", project=project)
@@ -80,7 +82,6 @@ def delete_project(project_id):
     # Add confirmation step in the template if desired
     db.session.delete(project)
     db.session.commit()
-    flash(f"Projeto ások{"{project.name}"} excluído com sucesso.", "success")
+    # CORRIGIDO: Removido caracteres inválidos e quebra de linha
+    flash(f'Projeto "{project.name}" excluído com sucesso.', "success") 
     return redirect(url_for("projects_bp.list_projects"))
-
-

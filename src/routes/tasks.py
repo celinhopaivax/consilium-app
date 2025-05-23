@@ -57,7 +57,7 @@ def create_task(project_id):
             )
             db.session.add(new_task)
             db.session.commit()
-            flash(f"Tarefa ások{"{title}"} criada com sucesso!", "success")
+                 flash(f"Tarefa {"{title}"} criada com sucesso!")
             return redirect(url_for("projects_bp.view_project", project_id=project.id))
     
     # For GET request or if POST fails validation and needs re-render
@@ -101,7 +101,8 @@ def edit_task(task_id):
                 task.assignee_id = None # Unassign if empty or invalid
 
             db.session.commit()
-            flash(f"Tarefa ások{"{task.title}"} atualizada com sucesso!", "success")
+            flash(f"Tarefa 
+ások{"{task.title}"} atualizada com sucesso!", "success")
             return redirect(url_for("projects_bp.view_project", project_id=project.id))
 
     users = User.query.all()
@@ -115,7 +116,8 @@ def delete_task(task_id):
 
     db.session.delete(task)
     db.session.commit()
-    flash(f"Tarefa ások{"{task.title}"} excluída com sucesso.", "success")
+    flash(f"Tarefa 
+ások{"{task.title}"} excluída com sucesso.", "success")
     return redirect(url_for("projects_bp.view_project", project_id=project.id))
 
 @tasks_bp.route("/task/<int:task_id>/update_status", methods=["POST"])
@@ -128,7 +130,9 @@ def update_task_status(task_id):
     if new_status and new_status in ["A Fazer", "Em Andamento", "Concluído"]: # Validate status
         task.status = new_status
         db.session.commit()
-        flash(f"Status da tarefa ások{"{task.title}"} atualizado para ások{"{new_status}"}.", "success")
+        flash(f"Status da tarefa 
+ások{"{task.title}"} atualizado para 
+ások{"{new_status}"}.", "success")
     else:
         flash("Status inválido.", "danger")
     return redirect(url_for("projects_bp.view_project", project_id=project.id))

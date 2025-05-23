@@ -14,4 +14,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5000
 
 # Comando para rodar o app com Gunicorn
-CMD ["gunicorn", "--bind", "0.0.0.0:5000", "src.main:app", "--log-level", "debug"]
+CMD ["python", "src/main.py"]

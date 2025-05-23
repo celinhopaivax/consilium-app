@@ -3,7 +3,7 @@ from flask_login import login_required, current_user
 from src.models import db
 from src.models.task import Task
 from src.models.project import Project
-from src.models.user import User # For assigning tasks
+from src.models.user import User  # For assigning tasks
 import datetime
 
 tasks_bp = Blueprint("tasks_bp", __name__)
@@ -12,8 +12,7 @@ tasks_bp = Blueprint("tasks_bp", __name__)
 def check_project_access(project_id):
     project = Project.query.get_or_404(project_id)
     if project.owner_id != current_user.id:
-        # In a more complex app, you might check for project membership too
-        abort(403) # Forbidden
+        abort(403)  # Forbidden
     return project
 
 @tasks_bp.route("/project/<int:project_id>/tasks/create", methods=["GET", "POST"])
@@ -37,31 +36,27 @@ def create_task(project_id):
                     due_date = datetime.datetime.strptime(due_date_str, "%Y-%m-%d").date()
                 except ValueError:
                     flash("Formato de data inválido. Use YYYY-MM-DD.", "danger")
-                    # Consider re-rendering form with errors
             
             assignee_id = None
             if assignee_id_str and assignee_id_str.isdigit():
                 assignee_id = int(assignee_id_str)
-                # Optional: Check if assignee is part of the project or a valid user
                 if not User.query.get(assignee_id):
                     flash("Usuário atribuído inválido.", "warning")
-                    assignee_id = None # Reset if invalid
+                    assignee_id = None
 
             new_task = Task(
-                title=title, 
-                description=description, 
-                status=status, 
-                due_date=due_date, 
+                title=title,
+                description=description,
+                status=status,
+                due_date=due_date,
                 project_id=project.id,
                 assignee_id=assignee_id
             )
             db.session.add(new_task)
             db.session.commit()
-                 flash(f"Tarefa {"{title}"} criada com sucesso!")
+            flash(f"Tarefa '{title}' criada com sucesso!", "success")
             return redirect(url_for("projects_bp.view_project", project_id=project.id))
-    
-    # For GET request or if POST fails validation and needs re-render
-    # Pass users for assignee dropdown (simplified: all users for now)
+
     users = User.query.all()
     return render_template("tasks/create_edit.html", title="Criar Nova Tarefa", project=project, task=None, users=users)
 
@@ -69,7 +64,7 @@ def create_task(project_id):
 @login_required
 def edit_task(task_id):
     task = Task.query.get_or_404(task_id)
-    project = check_project_access(task.project_id) # Ensures user has access to the project of the task
+    project = check_project_access(task.project_id)
 
     if request.method == "POST":
         task.title = request.form.get("title")
@@ -88,21 +83,19 @@ def edit_task(task_id):
                     flash("Formato de data inválido. Use YYYY-MM-DD.", "danger")
             else:
                 task.due_date = None
-            
-            assignee_id = None
+
             if assignee_id_str and assignee_id_str.isdigit():
                 assignee_id = int(assignee_id_str)
                 if User.query.get(assignee_id):
                     task.assignee_id = assignee_id
                 else:
                     flash("Usuário atribuído inválido.", "warning")
-                    task.assignee_id = None # Or keep old one, depending on desired logic
+                    task.assignee_id = None
             else:
-                task.assignee_id = None # Unassign if empty or invalid
+                task.assignee_id = None
 
             db.session.commit()
-            flash(f"Tarefa 
-ások{"{task.title}"} atualizada com sucesso!", "success")
+            flash(f"Tarefa '{task.title}' atualizada com sucesso!", "success")
             return redirect(url_for("projects_bp.view_project", project_id=project.id))
 
     users = User.query.all()
@@ -116,8 +109,7 @@ def delete_task(task_id):
 
     db.session.delete(task)
     db.session.commit()
-    flash(f"Tarefa 
-ások{"{task.title}"} excluída com sucesso.", "success")
+    flash(f"Tarefa '{task.title}' excluída com sucesso.", "success")
     return redirect(url_for("projects_bp.view_project", project_id=project.id))
 
 @tasks_bp.route("/task/<int:task_id>/update_status", methods=["POST"])
@@ -125,24 +117,19 @@ def delete_task(task_id):
 def update_task_status(task_id):
     task = Task.query.get_or_404(task_id)
     project = check_project_access(task.project_id)
-    
+
     new_status = request.form.get("status")
-    if new_status and new_status in ["A Fazer", "Em Andamento", "Concluído"]: # Validate status
+    if new_status and new_status in ["A Fazer", "Em Andamento", "Concluído"]:
         task.status = new_status
         db.session.commit()
-        flash(f"Status da tarefa 
-ások{"{task.title}"} atualizado para 
-ások{"{new_status}"}.", "success")
+        flash(f"Status da tarefa '{task.title}' atualizado para '{new_status}'.", "success")
     else:
         flash("Status inválido.", "danger")
     return redirect(url_for("projects_bp.view_project", project_id=project.id))
 
-# Future: Route for viewing a single task with its comments
 # @tasks_bp.route("/task/<int:task_id>")
 # @login_required
 # def view_task(task_id):
 #     task = Task.query.get_or_404(task_id)
 #     project = check_project_access(task.project_id)
-#     # Fetch comments for this task
 #     return render_template("tasks/view.html", task=task, project=project)
-

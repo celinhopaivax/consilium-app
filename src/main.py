@@ -5,12 +5,14 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
 from flask import Flask, send_from_directory, render_template, redirect, url_for
-from flask_sqlalchemy import SQLAlchemy
+# REMOVIDO: from flask_sqlalchemy import SQLAlchemy (não precisamos mais criar db aqui)
 from flask_migrate import Migrate
 from flask_login import current_user
 
-# Initialize extensions
-db = SQLAlchemy()
+# Importa a instância db de src.models
+from src.models import db 
+
+# Initialize extensions (db já foi importado)
 migrate = Migrate()
 
 # Import init_login_manager from auth routes
@@ -44,7 +46,7 @@ else:
 # Desativa o rastreamento de modificações para melhor desempenho
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-# Initialize Flask extensions
+# Initialize Flask extensions (usando o db importado de src.models)
 db.init_app(app)
 migrate.init_app(app, db) # For database migrations
 init_login_manager(app) # Initialize Flask-Login
@@ -61,6 +63,7 @@ app.register_blueprint(tasks_bp, url_prefix='/tasks')
 app.register_blueprint(comments_bp, url_prefix='/comments') # Register comments blueprint
 
 # Import models here to ensure they are registered with SQLAlchemy
+# (Eles já usam o db de src.models)
 from src.models import user, project, task, comment
 
 # A simple main blueprint for general routes like index/dashboard
@@ -103,7 +106,8 @@ def serve_static_path(path):
 
 if __name__ == '__main__':
     with app.app_context():
-        db.create_all() # Creates database tables based on models
+        # db.create_all() # É melhor usar migrações em produção, mas pode ser mantido por enquanto
+        pass # Removido db.create_all() para evitar problemas, use migrações
     # Usa a porta fornecida pelo ambiente ou 5000 como padrão
     port = int(os.getenv('PORT', 5000))
     # Certifique-se de que debug=False para produção

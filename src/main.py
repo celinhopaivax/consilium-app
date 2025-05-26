@@ -1,3 +1,4 @@
+import datetime
 import os
 import sys
 # DON'T CHANGE THIS !!!
@@ -83,6 +84,11 @@ def inject_nav_links():
         nav_links.append({'url': url_for('projects_bp.list_projects'), 'text': 'Meus Projetos'})
     return dict(nav_links=nav_links)
 
+# Inject current year into templates
+@app.context_processor
+def inject_current_year():
+    return {"current_year": datetime.datetime.now().year}
+
 # Serve static files and index.html (fallback for SPA-like behavior or if specific assets are requested)
 @app.route('/<path:path>')
 def serve_static_path(path):
@@ -98,4 +104,7 @@ def serve_static_path(path):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all() # Creates database tables based on models
-    app.run(host='0.0.0.0', port=int(os.getenv('PORT', 5000)), debug=False)
+    # Usa a porta fornecida pelo ambiente ou 5000 como padrão
+    port = int(os.getenv('PORT', 5000))
+    # Certifique-se de que debug=False para produção
+    app.run(host='0.0.0.0', port=port, debug=False)

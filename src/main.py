@@ -106,8 +106,10 @@ def serve_static_path(path):
 
 if __name__ == '__main__':
     with app.app_context():
-        # db.create_all() # É melhor usar migrações em produção, mas pode ser mantido por enquanto
-        pass # Removido db.create_all() para evitar problemas, use migrações
+        # REATIVADO: Cria as tabelas se não existirem na primeira execução
+        # É importante comentar ou remover isso após a primeira execução bem-sucedida
+        # para usar migrações para futuras alterações de esquema.
+        db.create_all() 
     # Usa a porta fornecida pelo ambiente ou 5000 como padrão
     port = int(os.getenv('PORT', 5000))
     # Certifique-se de que debug=False para produção

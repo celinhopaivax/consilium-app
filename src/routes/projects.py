@@ -11,9 +11,9 @@ projects_bp = Blueprint("projects_bp", __name__)
 @projects_bp.route("/")
 @login_required
 def list_projects():
-    # Query projects owned by or shared with the current user
-    # For now, let's assume projects are owned by the user.
-    projects = Project.query.filter_by(owner_id=current_user.id).order_by(Project.created_at.desc()).all()
+    # MODIFICADO: Buscar todos os projetos, ordenados por data de criação
+    projects = Project.query.order_by(Project.created_at.desc()).all()
+    # A verificação de permissão para editar/excluir será feita nas rotas específicas
     return render_template("projects/list.html", projects=projects)
 
 @projects_bp.route("/create", methods=["GET", "POST"])
@@ -41,10 +41,8 @@ def create_project():
 @login_required
 def view_project(project_id):
     project = Project.query.get_or_404(project_id)
-    # Add authorization check: ensure current_user has access to this project
-    if project.owner_id != current_user.id:
-        flash("Você não tem permissão para ver este projeto.", "danger")
-        return redirect(url_for("projects_bp.list_projects"))
+    # NENHUMA ALTERAÇÃO AQUI - Qualquer usuário logado pode ver qualquer projeto
+    # A lógica de permissão para edição/exclusão está nas rotas específicas
     
     # CORRIGIDO: Buscar e ordenar tarefas aqui no Python
     tasks = Task.query.filter_by(project_id=project.id).order_by(desc(Task.created_at)).all()
@@ -56,6 +54,7 @@ def view_project(project_id):
 @login_required
 def edit_project(project_id):
     project = Project.query.get_or_404(project_id)
+    # IMPORTANTE: Manter a verificação de permissão para edição
     if project.owner_id != current_user.id:
         flash("Você não tem permissão para editar este projeto.", "danger")
         return redirect(url_for("projects_bp.list_projects"))
@@ -81,6 +80,7 @@ def edit_project(project_id):
 @login_required
 def delete_project(project_id):
     project = Project.query.get_or_404(project_id)
+    # IMPORTANTE: Manter a verificação de permissão para exclusão
     if project.owner_id != current_user.id:
         flash("Você não tem permissão para excluir este projeto.", "danger")
         return redirect(url_for("projects_bp.list_projects"))
@@ -91,3 +91,4 @@ def delete_project(project_id):
     # CORRIGIDO: Removido caracteres inválidos e quebra de linha
     flash(f'Projeto "{project.name}" excluído com sucesso.', "success") 
     return redirect(url_for("projects_bp.list_projects"))
+

@@ -28,7 +28,7 @@
     
     {% if project.tasks.all() %}
         <div class="accordion" id="tasksAccordion">
-            {% for task in project.tasks.order_by(Task.created_at.desc()).all() %}
+           {% for task in tasks %}
                 <div class="card mb-2">
                     <div class="card-header" id="heading{{ task.id }}">
                         <h5 class="mb-0 d-flex justify-content-between align-items-center">

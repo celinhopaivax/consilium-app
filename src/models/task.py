@@ -16,6 +16,7 @@ class Task(db.Model):
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
     assignee_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    # RELACIONAMENTOS CORRIGIDOS
-    project = db.relationship('Project', foreign_keys=[project_id])  # sem backref
+    # RELACIONAMENTOS
+    project = db.relationship('Project', foreign_keys=[project_id])
     assignee = db.relationship('User', backref='assigned_tasks', foreign_keys=[assignee_id])
+    comments = db.relationship('Comment', backref='task', cascade='all, delete-orphan')  # <-- Adicionado

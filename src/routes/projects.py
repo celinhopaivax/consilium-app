@@ -3,6 +3,8 @@ from flask_login import login_required, current_user
 from src.models import db
 from src.models.project import Project
 from src.models.user import User # Import User if needed for project ownership or assignments
+from src.models.task import Task # Import Task model
+from sqlalchemy import desc # Import desc for ordering
 
 projects_bp = Blueprint("projects_bp", __name__)
 
@@ -43,8 +45,12 @@ def view_project(project_id):
     if project.owner_id != current_user.id:
         flash("Você não tem permissão para ver este projeto.", "danger")
         return redirect(url_for("projects_bp.list_projects"))
-    # Tasks related to this project will be fetched and displayed here later
-    return render_template("projects/view.html", project=project)
+    
+    # CORRIGIDO: Buscar e ordenar tarefas aqui no Python
+    tasks = Task.query.filter_by(project_id=project.id).order_by(desc(Task.created_at)).all()
+    
+    # Passar as tarefas ordenadas para o template
+    return render_template("projects/view.html", project=project, tasks=tasks)
 
 @projects_bp.route("/<int:project_id>/edit", methods=["GET", "POST"])
 @login_required

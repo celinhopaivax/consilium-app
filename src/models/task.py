@@ -16,5 +16,6 @@ class Task(db.Model):
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
     assignee_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
-    # RELACIONAMENTO CORRIGIDO
+    # RELACIONAMENTOS CORRIGIDOS
+    project = db.relationship('Project', backref='tasks', foreign_keys=[project_id])
     assignee = db.relationship('User', backref='assigned_tasks', foreign_keys=[assignee_id])

@@ -11,6 +11,7 @@ class Task(db.Model):
     due_date = db.Column(db.DateTime, nullable=True)
     created_at = db.Column(db.DateTime, default=datetime.datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.datetime.utcnow, onupdate=datetime.datetime.utcnow)
+    completed_at = db.Column(db.DateTime, nullable=True) # NOVO CAMPO: Data de conclusão
 
     project_id = db.Column(db.Integer, db.ForeignKey("projects.id"), nullable=False)
     assignee_id = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=True)

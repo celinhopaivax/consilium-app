@@ -11,6 +11,10 @@ class Task(db.Model):
     due_date = db.Column(db.Date)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
-    completed_at = db.Column(db.DateTime)  # <-- CAMPO ADICIONADO
+    completed_at = db.Column(db.DateTime)
+
     project_id = db.Column(db.Integer, db.ForeignKey('projects.id'), nullable=False)
     assignee_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+    # RELACIONAMENTO CORRIGIDO
+    assignee = db.relationship('User', backref='assigned_tasks', foreign_keys=[assignee_id])

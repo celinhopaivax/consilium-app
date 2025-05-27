@@ -2,32 +2,54 @@
 body {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     background-color: #f8f9fa;
-    color: #212529;
+    color: #343a40; /* Tom de cinza mais escuro para melhor contraste */
     line-height: 1.6;
+}
+
+.container {
+    max-width: 1140px; /* Aumenta um pouco a largura máxima */
 }
 
 .footer {
     background-color: #e9ecef;
-    padding: 1rem 0;
+    padding: 1.5rem 0; /* Mais espaçamento */
+    margin-top: 3rem; /* Mais espaço antes do rodapé */
     font-size: 0.9em;
     color: #6c757d;
 }
 
 .navbar {
     box-shadow: 0 2px 4px rgba(0,0,0,.04);
+    margin-bottom: 2rem; /* Mais espaço após a navbar */
+}
+
+.navbar-brand {
+    font-weight: 600; /* Deixa a marca mais forte */
 }
 
 .card {
-    border: 1px solid rgba(0,0,0,.125);
-    border-radius: .25rem;
+    border: none; /* Remove a borda padrão */
+    border-radius: .4rem; /* Bordas mais arredondadas */
     margin-bottom: 1.5rem;
-    box-shadow: 0 1px 3px rgba(0,0,0,.05);
+    box-shadow: 0 2px 10px rgba(0,0,0,.07); /* Sombra mais suave */
 }
 
 .card-header {
-    background-color: #f1f3f5;
-    border-bottom: 1px solid rgba(0,0,0,.125);
+    background-color: #ffffff; /* Fundo branco para cabeçalho */
+    border-bottom: 1px solid #e9ecef; /* Linha divisória sutil */
+    font-weight: 600; /* Título do card mais forte */
+    padding: 1rem 1.25rem; /* Ajuste no padding */
+}
+
+.card-body {
+    padding: 1.25rem; /* Ajuste no padding */
+}
+
+/* Botões */
+.btn {
+    border-radius: .3rem; /* Bordas levemente arredondadas */
     font-weight: 500;
+    padding: .5rem 1rem; /* Ajuste no padding */
 }
 
 .btn-primary {
@@ -45,6 +67,16 @@ body {
     border-color: #28a745;
 }
 
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
 .btn-outline-primary {
     color: #007bff;
     border-color: #007bff;
@@ -57,7 +89,7 @@ body {
 }
 
 .alert {
-    border-radius: .25rem;
+    border-radius: .3rem; /* Bordas levemente arredondadas */
 }
 
 /* Melhorias para responsividade */
@@ -79,33 +111,82 @@ body {
 }
 
 /* Estilos específicos para a visualização de projeto e tarefas */
-#tasksAccordion .card-header .btn-link {
-    text-decoration: none;
-    color: #212529;
-    width: 100%;
-    text-align: left;
-    padding: .75rem 1.25rem;
+.task-list .list-group-item {
+    border-left: 4px solid #dee2e6; /* Borda lateral padrão */
+    margin-bottom: 0.5rem;
+    padding: 1rem 1.25rem;
 }
 
-#tasksAccordion .card-header .btn-link:hover {
-    color: #0056b3;
+/* Cores de Status */
+.task-status-a-fazer {
+    border-left-color: #dc3545 !important; /* Vermelho */
 }
 
-#tasksAccordion .badge {
-    font-size: 0.8em;
+.task-status-em-andamento {
+    border-left-color: #007bff !important; /* Azul */
 }
 
-.media-body h6 small {
+.task-status-concluido {
+    border-left-color: #28a745 !important; /* Verde */
+    text-decoration: line-through; /* Riscar tarefas concluídas */
+    color: #6c757d; /* Cor mais clara para texto de concluído */
+}
+
+.task-meta {
     font-size: 0.85em;
+    color: #6c757d;
 }
 
-/* Ajustes para formulários inline */
+.task-meta .assignee-name {
+    font-weight: 500;
+    color: #495057;
+}
+
+.task-meta .due-date {
+    margin-left: 10px;
+}
+
+.task-actions .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
+}
+
+/* Formulários */
+.form-group label {
+    font-weight: 500;
+}
+
+/* Ajustes para formulários inline (se houver) */
 .form-inline .form-control-sm {
     max-width: 150px; /* Limita a largura do select de status */
 }
 
 .list-group-item-action:hover, .list-group-item-action:focus {
-    background-color: #f8f9fa;
+    background-color: #f1f3f5; /* Fundo mais sutil no hover */
 }
 
+/* Adiciona classe para status visualmente */
+.status-badge {
+    padding: 0.3em 0.6em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+    color: #fff;
+}
+
+.status-badge-a-fazer {
+    background-color: #dc3545; /* Vermelho */
+}
+
+.status-badge-em-andamento {
+    background-color: #007bff; /* Azul */
+}
+
+.status-badge-concluido {
+    background-color: #28a745; /* Verde */
+}
 

@@ -17,5 +17,5 @@ class Task(db.Model):
     assignee_id = db.Column(db.Integer, db.ForeignKey('users.id'))
 
     # RELACIONAMENTOS CORRIGIDOS
-    project = db.relationship('Project', backref='tasks', foreign_keys=[project_id])
+    project = db.relationship('Project', foreign_keys=[project_id])  # sem backref
     assignee = db.relationship('User', backref='assigned_tasks', foreign_keys=[assignee_id])

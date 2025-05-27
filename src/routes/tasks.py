@@ -92,8 +92,8 @@ def create_task(project_id):
             )
             db.session.add(new_task)
             db.session.commit()
-            flash(f"Tarefa 
-ások{"{title}"} criada com sucesso!", "success")
+            # CORRIGIDO: Erro de sintaxe na string f
+            flash(f'Tarefa "{title}" criada com sucesso!', "success")
             
             # Send email notification if assignee was set
             if assignee:
@@ -149,8 +149,8 @@ def edit_task(task_id):
                  task.completed_at = None # Reset if status changes from Concluído
 
             db.session.commit()
-            flash(f"Tarefa 
-ások{"{task.title}"} atualizada com sucesso!", "success")
+            # CORRIGIDO: Erro de sintaxe na string f
+            flash(f'Tarefa "{task.title}" atualizada com sucesso!', "success")
             
             # Send email notification if assignee changed to a new user
             if task.assignee_id is not None and task.assignee_id != old_assignee_id:
@@ -177,8 +177,8 @@ def delete_task(task_id):
 
     db.session.delete(task)
     db.session.commit()
-    flash(f"Tarefa 
-ások{"{task.title}"} excluída com sucesso.", "success")
+    # CORRIGIDO: Erro de sintaxe na string f
+    flash(f'Tarefa "{task.title}" excluída com sucesso.', "success")
     return redirect(url_for("projects_bp.view_project", project_id=project.id))
 
 @tasks_bp.route("/task/<int:task_id>/update_status", methods=["POST"])
@@ -197,10 +197,8 @@ def update_task_status(task_id):
             task.completed_at = None # Reset if status changes from Concluído
             
         db.session.commit()
-        flash(f"Status da tarefa 
-ások{"{task.title}"} atualizado para 
-ások{"{new_status}"}.", "success")
+        # CORRIGIDO: Erro de sintaxe na string f
+        flash(f'Status da tarefa "{task.title}" atualizado para "{new_status}".', "success")
     else:
         flash("Status inválido.", "danger")
     return redirect(url_for("projects_bp.view_project", project_id=project.id))
-
